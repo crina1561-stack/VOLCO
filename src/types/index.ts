@@ -14,14 +14,32 @@ export interface Product {
   is_new: boolean;
   rating: number;
   review_count: number;
+  average_rating: number;
   views: number;
   sales_count: number;
+  warranty_months: number;
   images: string[];
   specifications: Record<string, string>;
   created_at: string;
   updated_at: string;
   category?: Category;
   brand?: Brand;
+  variants?: ProductVariant[];
+}
+
+export interface ProductVariant {
+  id: string;
+  product_id: string;
+  name: string;
+  type: string;
+  value: string;
+  price_adjustment: number;
+  stock_quantity: number;
+  sku: string | null;
+  image: string | null;
+  display_order: number;
+  is_available: boolean;
+  created_at: string;
 }
 
 export interface Category {

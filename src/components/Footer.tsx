@@ -13,7 +13,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             <img
               src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
               alt="VOLCO Logo"
-              className="h-16 md:h-20 w-auto mb-4"
+              className="h-24 md:h-32 w-auto mb-4"
             />
             <p className="text-gray-400 mb-4">
               Magazinul tău de încredere pentru electronice, tehnologie și lifestyle premium.

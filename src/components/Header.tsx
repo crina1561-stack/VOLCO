@@ -48,7 +48,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
               <img
                 src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
                 alt="VOLCO Logo"
-                className="h-24 md:h-28 w-auto group-hover:scale-105 transition-transform"
+                className="h-32 md:h-40 w-auto group-hover:scale-105 transition-transform"
               />
             </button>
 
@@ -221,6 +221,50 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
               </div>
             </div>
           )}
+        </div>
+      </div>
+
+      <div className="hidden md:block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-center gap-8 text-white font-semibold">
+            <button onClick={() => onNavigate('category', 'telefoane-tablete')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">📱</span>
+              <span className="text-sm">Telefoane & Tablete</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'laptopuri')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">💻</span>
+              <span className="text-sm">Laptopuri</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'calculatoare-componente')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">🖥️</span>
+              <span className="text-sm">PC & Componente</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'tv-audio-video')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">📺</span>
+              <span className="text-sm">TV & Audio</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'gaming')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">🎮</span>
+              <span className="text-sm">Gaming</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'electrocasnice')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">🏠</span>
+              <span className="text-sm">Electrocasnice</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'parfumuri-cosmetice')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">💄</span>
+              <span className="text-sm">Parfumuri</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'fashion-accesorii')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">👔</span>
+              <span className="text-sm">Fashion</span>
+            </button>
+            <button onClick={() => onNavigate('category', 'rechizite-scolare')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+              <span className="text-2xl">📚</span>
+              <span className="text-sm">Rechizite</span>
+            </button>
+          </div>
         </div>
       </div>
 

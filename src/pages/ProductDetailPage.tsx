@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Star, ShoppingCart, Heart, Shield, Truck, Award, ChevronLeft, ChevronRight, Check, TrendingUp, Package, Clock } from 'lucide-react';
+import { Star, ShoppingCart, Heart, Shield, Truck, Award, Check, Package, Clock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import { Product, Review } from '../types';
+import { Product, ProductVariant, Review } from '../types';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useFavorites } from '../contexts/FavoritesContext';
@@ -22,6 +22,7 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
   const [reviewText, setReviewText] = useState('');
   const [reviewRating, setReviewRating] = useState(5);
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [selectedVariants, setSelectedVariants] = useState<Record<string, string>>({});
   const { addToCart } = useCart();
   const { user } = useAuth();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
@@ -39,6 +40,17 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
 
     if (productData) {
       const prod = productData as unknown as Product;
+
+      const { data: variantsData } = await supabase
+        .from('product_variants')
+        .select('*')
+        .eq('product_id', prod.id)
+        .order('display_order');
+
+      if (variantsData) {
+        prod.variants = variantsData as unknown as ProductVariant[];
+      }
+
       setProduct(prod);
 
       const { data: reviewsData } = await supabase
@@ -107,6 +119,23 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
     }
   };
 
+  const handleVariantSelect = (type: string, value: string) => {
+    setSelectedVariants(prev => ({
+      ...prev,
+      [type]: value
+    }));
+  };
+
+  const getVariantsByType = (type: string): ProductVariant[] => {
+    if (!product?.variants) return [];
+    return product.variants.filter(v => v.type === type);
+  };
+
+  const getUniqueVariantTypes = (): string[] => {
+    if (!product?.variants) return [];
+    return Array.from(new Set(product.variants.map(v => v.type)));
+  };
+
   const renderStars = (rating: number, size: number = 16, interactive: boolean = false, onRate?: (rating: number) => void) => {
     return (
       <div className="flex gap-1">
@@ -136,6 +165,8 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
     ? Math.round(((product.price - product.discount_price!) / product.price) * 100)
     : 0;
 
+  const variantTypes = getUniqueVariantTypes();
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="bg-white border-b">
@@ -161,8 +192,8 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+              <div className="grid md:grid-cols-2 gap-6 p-6">
                 <div>
                   <div className="relative bg-gray-50 rounded-xl p-8 mb-4">
                     {hasDiscount && (
@@ -179,13 +210,13 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
                     />
                   </div>
 
-                  <div className="flex gap-2 overflow-x-auto">
+                  <div className="flex gap-2 overflow-x-auto pb-2">
                     {product.images.map((image, index) => (
                       <button
                         key={index}
                         onClick={() => setCurrentImage(index)}
-                        className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 ${
-                          currentImage === index ? 'border-[#0A2540]' : 'border-gray-200'
+                        className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
+                          currentImage === index ? 'border-[#0A2540]' : 'border-gray-200 hover:border-gray-400'
                         }`}
                       >
                         <img src={image} alt={`${product.name} ${index + 1}`} className="w-full h-full object-cover" />
@@ -195,24 +226,64 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
                 </div>
 
                 <div>
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      {product.brand && (
-                        <p className="text-sm text-gray-600 mb-1">Brand: <span className="font-semibold text-[#0A2540]">{product.brand.name}</span></p>
-                      )}
-                      <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h1>
-                    </div>
+                  <div className="mb-3">
+                    {product.brand && (
+                      <p className="text-sm text-gray-600 mb-1">Brand: <span className="font-semibold text-[#0A2540]">{product.brand.name}</span></p>
+                    )}
+                    <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h1>
                   </div>
 
                   <div className="flex items-center gap-4 mb-4 pb-4 border-b">
                     <div className="flex items-center gap-2">
-                      {renderStars(Math.round(product.average_rating))}
-                      <span className="text-sm font-semibold text-gray-900">{product.average_rating.toFixed(1)}</span>
+                      {renderStars(Math.round(product.average_rating || product.rating))}
+                      <span className="text-sm font-semibold text-gray-900">{(product.average_rating || product.rating).toFixed(1)}</span>
                     </div>
                     <span className="text-sm text-gray-600">({product.review_count} review-uri)</span>
                   </div>
 
-                  <div className="mb-6">
+                  {variantTypes.map(type => {
+                    const variants = getVariantsByType(type);
+                    if (variants.length === 0) return null;
+
+                    return (
+                      <div key={type} className="mb-6">
+                        <label className="block text-sm font-bold text-gray-900 mb-3 uppercase">{type}</label>
+                        <div className="flex flex-wrap gap-2">
+                          {variants.map((variant) => {
+                            const isSelected = selectedVariants[type] === variant.value;
+                            const isColor = type.toLowerCase() === 'color' || type.toLowerCase() === 'culoare';
+
+                            return (
+                              <button
+                                key={variant.id}
+                                onClick={() => handleVariantSelect(type, variant.value)}
+                                className={`relative transition ${
+                                  isColor
+                                    ? 'w-12 h-12 rounded-full border-2'
+                                    : 'px-4 py-3 rounded-lg border-2 font-semibold text-sm'
+                                } ${
+                                  isSelected
+                                    ? 'border-[#0A2540] bg-[#0A2540] text-white'
+                                    : 'border-gray-300 hover:border-[#0A2540] bg-white text-gray-900'
+                                } ${!variant.is_available ? 'opacity-40 cursor-not-allowed' : ''}`}
+                                disabled={!variant.is_available}
+                                style={isColor ? { backgroundColor: isSelected ? undefined : variant.value.toLowerCase() } : undefined}
+                              >
+                                {!isColor && variant.value}
+                                {!variant.is_available && (
+                                  <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="w-full h-0.5 bg-red-500 transform -rotate-45"></div>
+                                  </div>
+                                )}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <div className="mb-6 pb-6 border-b">
                     {hasDiscount && (
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-lg text-gray-400 line-through">{product.price.toFixed(2)} RON</span>
@@ -229,23 +300,23 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
                     <div className="flex items-center gap-3 text-sm">
                       {product.stock_quantity > 0 ? (
                         <>
-                          <Check size={18} className="text-green-600" />
+                          <Check size={18} className="text-green-600 flex-shrink-0" />
                           <span className="text-green-600 font-semibold">În stoc - {product.stock_quantity} bucăți disponibile</span>
                         </>
                       ) : (
                         <>
-                          <Clock size={18} className="text-red-600" />
+                          <Clock size={18} className="text-red-600 flex-shrink-0" />
                           <span className="text-red-600 font-semibold">Stoc epuizat</span>
                         </>
                       )}
                     </div>
                     <div className="flex items-center gap-3 text-sm">
-                      <Truck size={18} className="text-blue-600" />
+                      <Truck size={18} className="text-blue-600 flex-shrink-0" />
                       <span className="text-gray-700">Livrare <span className="font-semibold">24-48h</span> în toată România</span>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
-                      <Shield size={18} className="text-purple-600" />
-                      <span className="text-gray-700">Garanție <span className="font-semibold">{product.warranty_months} luni</span></span>
+                      <Shield size={18} className="text-purple-600 flex-shrink-0" />
+                      <span className="text-gray-700">Garanție <span className="font-semibold">{product.warranty_months || 24} luni</span></span>
                     </div>
                   </div>
 
@@ -253,14 +324,14 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
                     <div className="flex items-center border border-gray-300 rounded-lg">
                       <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="px-4 py-2 hover:bg-gray-100"
+                        className="px-4 py-2 hover:bg-gray-100 font-bold text-lg"
                       >
                         -
                       </button>
-                      <span className="px-6 py-2 font-semibold">{quantity}</span>
+                      <span className="px-6 py-2 font-semibold border-x border-gray-300">{quantity}</span>
                       <button
                         onClick={() => setQuantity(Math.min(product.stock_quantity, quantity + 1))}
-                        className="px-4 py-2 hover:bg-gray-100"
+                        className="px-4 py-2 hover:bg-gray-100 font-bold text-lg"
                       >
                         +
                       </button>
@@ -271,17 +342,17 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
                     <button
                       onClick={handleAddToCart}
                       disabled={product.stock_quantity === 0}
-                      className="flex-1 bg-[#0A2540] text-white py-4 rounded-xl hover:bg-[#0d3659] transition font-bold text-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 bg-[#0A2540] text-white py-4 rounded-xl hover:bg-[#0d3659] transition font-bold text-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
                     >
                       <ShoppingCart size={24} />
                       Adaugă în coș
                     </button>
                     <button
                       onClick={toggleFavorite}
-                      className={`px-6 py-4 rounded-xl border-2 transition ${
+                      className={`px-6 py-4 rounded-xl border-2 transition shadow-lg ${
                         isFavorite(product.id)
                           ? 'border-red-500 bg-red-50'
-                          : 'border-gray-300 hover:border-red-500'
+                          : 'border-gray-300 hover:border-red-500 bg-white'
                       }`}
                     >
                       <Heart
@@ -292,11 +363,11 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-blue-50 p-3 rounded-lg text-center">
+                    <div className="bg-blue-50 p-3 rounded-lg text-center border border-blue-100">
                       <Truck size={24} className="mx-auto text-blue-600 mb-1" />
                       <p className="text-xs text-gray-700 font-semibold">Livrare rapidă</p>
                     </div>
-                    <div className="bg-green-50 p-3 rounded-lg text-center">
+                    <div className="bg-green-50 p-3 rounded-lg text-center border border-green-100">
                       <Shield size={24} className="mx-auto text-green-600 mb-1" />
                       <p className="text-xs text-gray-700 font-semibold">Garanție extinsă</p>
                     </div>
@@ -348,9 +419,9 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
               )}
 
               {activeTab === 'specs' && (
-                <div className="space-y-3">
-                  {product.specifications && Object.entries(product.specifications).map(([key, value]) => (
-                    <div key={key} className="flex py-3 border-b last:border-0">
+                <div className="space-y-2">
+                  {product.specifications && Object.entries(product.specifications).map(([key, value], index) => (
+                    <div key={key} className={`flex py-3 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} px-4 rounded`}>
                       <span className="font-semibold text-gray-700 w-1/3">{key}</span>
                       <span className="text-gray-600 w-2/3">{String(value)}</span>
                     </div>
