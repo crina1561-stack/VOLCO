@@ -258,6 +258,44 @@ const menuData: MenuCategory[] = [
       }
     ],
     featured: ['Nike Air Max', 'Adidas Ultraboost', 'Guess Bags']
+  },
+  {
+    name: 'Rechizite Școlare',
+    slug: 'rechizite-scolare',
+    icon: '📚',
+    subcategories: [
+      {
+        name: 'Ghiozdane & Genți',
+        slug: 'ghiozdane-genti',
+        items: ['Ghiozdane școlare', 'Rucsacuri', 'Genți sport', 'Penar']
+      },
+      {
+        name: 'Cărți & Caiete',
+        slug: 'carti-caiete',
+        items: ['Caiete dictando', 'Caiete matematică', 'Agende', 'Carnete notițe', 'Registre']
+      },
+      {
+        name: 'Instrumente de Scris',
+        slug: 'instrumente-scris',
+        items: ['Pixuri', 'Creioane', 'Markere', 'Stabilo', 'Corectoare', 'Stilouri']
+      },
+      {
+        name: 'Papetărie',
+        slug: 'papetarie',
+        items: ['Hârtie', 'Bibliorafturi', 'Dosare', 'Folii protectie', 'Etichete']
+      },
+      {
+        name: 'Accesorii Școlare',
+        slug: 'accesorii-scolare',
+        items: ['Rigle', 'Compas', 'Echer', 'Radiere', 'Ascutitori', 'Capsator']
+      },
+      {
+        name: 'Artă & Desen',
+        slug: 'arta-desen',
+        items: ['Creioane colorate', 'Acuarele', 'Pensule', 'Plastilină', 'Foi desen']
+      }
+    ],
+    featured: ['Ghiozdan Star Wars', 'Set Creioane Faber-Castell', 'Caiet A4 Oxford']
   }
 ];
 
