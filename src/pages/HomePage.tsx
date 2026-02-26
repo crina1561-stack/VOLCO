@@ -1,0 +1,259 @@
+import { useEffect, useState } from 'react';
+import { ChevronRight, Zap, Shield, Truck, Award } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { Product, Category } from '../types';
+import ProductCard from '../components/ProductCard';
+
+interface HomePageProps {
+  onNavigate: (page: string, slug?: string) => void;
+}
+
+export default function HomePage({ onNavigate }: HomePageProps) {
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
+  const [newProducts, setNewProducts] = useState<Product[]>([]);
+  const [topSellers, setTopSellers] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [currentBanner, setCurrentBanner] = useState(0);
+
+  const banners = [
+    {
+      title: 'Laptopuri Gaming Ultimate',
+      subtitle: 'Performanță maximă pentru jocurile tale favorite',
+      discount: 'Până la 30% reducere',
+      bg: 'from-slate-900 to-blue-900',
+      image: 'https://images.pexels.com/photos/7974/pexels-photo.jpg'
+    },
+    {
+      title: 'Componente PC Premium',
+      subtitle: 'Cele mai noi plăci video și procesoare',
+      discount: 'Oferte speciale',
+      bg: 'from-purple-900 to-pink-900',
+      image: 'https://images.pexels.com/photos/2582935/pexels-photo-2582935.jpeg'
+    },
+    {
+      title: 'Monitoare 4K & Gaming',
+      subtitle: 'Experiență vizuală de top',
+      discount: 'Până la 25% reducere',
+      bg: 'from-green-900 to-teal-900',
+      image: 'https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg'
+    }
+  ];
+
+  useEffect(() => {
+    fetchData();
+    const interval = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % banners.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchData = async () => {
+    const [featuredRes, newRes, topRes, categoriesRes] = await Promise.all([
+      supabase
+        .from('products')
+        .select('*, brand:brands(*), category:categories(*)')
+        .eq('is_featured', true)
+        .eq('is_available', true)
+        .limit(8),
+      supabase
+        .from('products')
+        .select('*, brand:brands(*), category:categories(*)')
+        .eq('is_new', true)
+        .eq('is_available', true)
+        .order('created_at', { ascending: false })
+        .limit(8),
+      supabase
+        .from('products')
+        .select('*, brand:brands(*), category:categories(*)')
+        .eq('is_available', true)
+        .order('sales_count', { ascending: false })
+        .limit(8),
+      supabase
+        .from('categories')
+        .select('*')
+        .is('parent_id', null)
+        .order('display_order')
+    ]);
+
+    if (featuredRes.data) setFeaturedProducts(featuredRes.data as unknown as Product[]);
+    if (newRes.data) setNewProducts(newRes.data as unknown as Product[]);
+    if (topRes.data) setTopSellers(topRes.data as unknown as Product[]);
+    if (categoriesRes.data) setCategories(categoriesRes.data);
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="relative h-[500px] overflow-hidden">
+        {banners.map((banner, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-1000 ${
+              index === currentBanner ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-r ${banner.bg}`}>
+              <div className="absolute inset-0 bg-black/30" />
+              <img
+                src={banner.image}
+                alt={banner.title}
+                className="w-full h-full object-cover mix-blend-overlay opacity-40"
+              />
+            </div>
+            <div className="relative max-w-7xl mx-auto px-4 h-full flex items-center">
+              <div className="text-white max-w-2xl">
+                <div className="inline-block bg-red-600 text-white px-4 py-2 rounded-full font-bold mb-4 animate-pulse">
+                  {banner.discount}
+                </div>
+                <h1 className="text-6xl font-bold mb-4 leading-tight">{banner.title}</h1>
+                <p className="text-2xl mb-8 text-gray-200">{banner.subtitle}</p>
+                <button
+                  onClick={() => onNavigate('products')}
+                  className="bg-white text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 shadow-2xl"
+                >
+                  Descoperă Ofertele
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex gap-2">
+          {banners.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentBanner(index)}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === currentBanner ? 'bg-white w-8' : 'bg-white/50'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-white py-8 shadow-md">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {[
+              { icon: Truck, title: 'Transport Gratuit', desc: 'Pentru comenzi peste 500 RON' },
+              { icon: Shield, title: 'Garanție Extinsă', desc: 'Până la 3 ani' },
+              { icon: Zap, title: 'Livrare Rapidă', desc: '24-48 ore' },
+              { icon: Award, title: 'Calitate Premium', desc: 'Produse certificate' }
+            ].map((feature, index) => (
+              <div key={index} className="flex items-center gap-4">
+                <div className="p-3 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg">
+                  <feature.icon className="text-blue-600" size={32} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900">{feature.title}</h4>
+                  <p className="text-sm text-gray-600">{feature.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-12">
+        <div className="mb-12">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-3xl font-bold text-gray-900">Categorii Principale</h2>
+            <button
+              onClick={() => onNavigate('categories')}
+              className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+            >
+              Vezi toate <ChevronRight size={20} />
+            </button>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => onNavigate('category', category.slug)}
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border border-gray-100 hover:border-blue-200 group"
+              >
+                <div className="text-4xl mb-3">{category.icon}</div>
+                <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition">
+                  {category.name}
+                </h3>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {featuredProducts.length > 0 && (
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900">Produse Recomandate</h2>
+              <button
+                onClick={() => onNavigate('products')}
+                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+              >
+                Vezi toate <ChevronRight size={20} />
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {newProducts.length > 0 && (
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900">Produse Noi</h2>
+              <button
+                onClick={() => onNavigate('products')}
+                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+              >
+                Vezi toate <ChevronRight size={20} />
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {newProducts.map((product) => (
+                <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {topSellers.length > 0 && (
+          <div className="mb-12">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-900">Cele Mai Vândute</h2>
+              <button
+                onClick={() => onNavigate('products')}
+                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+              >
+                Vezi toate <ChevronRight size={20} />
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {topSellers.map((product) => (
+                <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-12 text-white text-center">
+          <h2 className="text-4xl font-bold mb-4">Abonează-te la Newsletter</h2>
+          <p className="text-xl mb-8 text-blue-100">
+            Primește oferte exclusive și noutăți despre cele mai noi produse
+          </p>
+          <div className="max-w-md mx-auto flex gap-2">
+            <input
+              type="email"
+              placeholder="Adresa ta de email"
+              className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
+            />
+            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+              Abonează-te
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
