@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Star, ShoppingCart, Heart, Shield, Truck, Award, Check, Package, Clock } from 'lucide-react';
+import { Star, ShoppingCart, Heart, Shield, Truck, Award, Check, Package, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { Product, ProductVariant, Review } from '../types';
 import { useCart } from '../contexts/CartContext';
@@ -151,9 +151,17 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
     );
   };
 
+  const nextImage = () => {
+    setCurrentImage((prev) => (prev + 1) % product!.images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImage((prev) => (prev - 1 + product!.images.length) % product!.images.length);
+  };
+
   if (!product) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#0A2540]"></div>
       </div>
     );
@@ -168,380 +176,368 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
   const variantTypes = getUniqueVariantTypes();
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
+    <div className="min-h-screen bg-white">
+      <div className="bg-gray-50 border-b">
+        <div className="max-w-[1400px] mx-auto px-6 py-3">
+          <div className="flex items-center gap-2 text-sm text-gray-500">
             <button onClick={() => onNavigate('home')} className="hover:text-[#0A2540]">Acasă</button>
             <span>/</span>
-            <button onClick={() => onNavigate('products')} className="hover:text-[#0A2540]">Produse</button>
             {product.category && (
               <>
-                <span>/</span>
                 <button onClick={() => onNavigate('category', product.category.slug)} className="hover:text-[#0A2540]">
                   {product.category.name}
                 </button>
+                <span>/</span>
               </>
             )}
-            <span>/</span>
-            <span className="text-gray-900 font-semibold">{product.name}</span>
+            <span className="text-gray-900">{product.name}</span>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="grid md:grid-cols-2 gap-6 p-6">
-                <div>
-                  <div className="relative bg-gray-50 rounded-xl p-8 mb-4">
-                    {hasDiscount && (
-                      <div className="absolute top-4 left-4 z-10">
-                        <div className="bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-lg shadow-lg">
-                          -{discountPercentage}%
-                        </div>
-                      </div>
-                    )}
-                    <img
-                      src={product.images[currentImage] || 'https://images.pexels.com/photos/7974/pexels-photo.jpg'}
-                      alt={product.name}
-                      className="w-full h-96 object-contain"
-                    />
+      <div className="max-w-[1400px] mx-auto px-6 py-8">
+        <div className="grid lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-7">
+            <div className="sticky top-24">
+              <div className="relative bg-white rounded-2xl overflow-hidden group">
+                {hasDiscount && (
+                  <div className="absolute top-6 left-6 z-20">
+                    <div className="bg-red-600 text-white px-5 py-2.5 rounded-xl font-bold text-xl shadow-xl">
+                      -{discountPercentage}%
+                    </div>
                   </div>
+                )}
 
-                  <div className="flex gap-2 overflow-x-auto pb-2">
-                    {product.images.map((image, index) => (
+                <button
+                  onClick={toggleFavorite}
+                  className={`absolute top-6 right-6 z-20 p-3 rounded-full transition shadow-lg ${
+                    isFavorite(product.id)
+                      ? 'bg-red-500 text-white'
+                      : 'bg-white/90 backdrop-blur text-gray-700 hover:bg-red-500 hover:text-white'
+                  }`}
+                >
+                  <Heart
+                    size={24}
+                    className={isFavorite(product.id) ? 'fill-current' : ''}
+                  />
+                </button>
+
+                <div className="relative aspect-square bg-gray-50">
+                  <img
+                    src={product.images[currentImage] || 'https://images.pexels.com/photos/7974/pexels-photo.jpg'}
+                    alt={product.name}
+                    className="w-full h-full object-contain p-8"
+                  />
+
+                  {product.images.length > 1 && (
+                    <>
                       <button
-                        key={index}
-                        onClick={() => setCurrentImage(index)}
-                        className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
-                          currentImage === index ? 'border-[#0A2540]' : 'border-gray-200 hover:border-gray-400'
-                        }`}
+                        onClick={prevImage}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/90 backdrop-blur rounded-full shadow-lg hover:bg-white transition opacity-0 group-hover:opacity-100"
                       >
-                        <img src={image} alt={`${product.name} ${index + 1}`} className="w-full h-full object-cover" />
+                        <ChevronLeft size={24} />
                       </button>
-                    ))}
-                  </div>
+                      <button
+                        onClick={nextImage}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/90 backdrop-blur rounded-full shadow-lg hover:bg-white transition opacity-0 group-hover:opacity-100"
+                      >
+                        <ChevronRight size={24} />
+                      </button>
+                    </>
+                  )}
                 </div>
+              </div>
 
-                <div>
-                  <div className="mb-3">
-                    {product.brand && (
-                      <p className="text-sm text-gray-600 mb-1">Brand: <span className="font-semibold text-[#0A2540]">{product.brand.name}</span></p>
-                    )}
-                    <h1 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h1>
-                  </div>
-
-                  <div className="flex items-center gap-4 mb-4 pb-4 border-b">
-                    <div className="flex items-center gap-2">
-                      {renderStars(Math.round(product.average_rating || product.rating))}
-                      <span className="text-sm font-semibold text-gray-900">{(product.average_rating || product.rating).toFixed(1)}</span>
-                    </div>
-                    <span className="text-sm text-gray-600">({product.review_count} review-uri)</span>
-                  </div>
-
-                  {variantTypes.map(type => {
-                    const variants = getVariantsByType(type);
-                    if (variants.length === 0) return null;
-
-                    return (
-                      <div key={type} className="mb-6">
-                        <label className="block text-sm font-bold text-gray-900 mb-3 uppercase">{type}</label>
-                        <div className="flex flex-wrap gap-2">
-                          {variants.map((variant) => {
-                            const isSelected = selectedVariants[type] === variant.value;
-                            const isColor = type.toLowerCase() === 'color' || type.toLowerCase() === 'culoare';
-
-                            return (
-                              <button
-                                key={variant.id}
-                                onClick={() => handleVariantSelect(type, variant.value)}
-                                className={`relative transition ${
-                                  isColor
-                                    ? 'w-12 h-12 rounded-full border-2'
-                                    : 'px-4 py-3 rounded-lg border-2 font-semibold text-sm'
-                                } ${
-                                  isSelected
-                                    ? 'border-[#0A2540] bg-[#0A2540] text-white'
-                                    : 'border-gray-300 hover:border-[#0A2540] bg-white text-gray-900'
-                                } ${!variant.is_available ? 'opacity-40 cursor-not-allowed' : ''}`}
-                                disabled={!variant.is_available}
-                                style={isColor ? { backgroundColor: isSelected ? undefined : variant.value.toLowerCase() } : undefined}
-                              >
-                                {!isColor && variant.value}
-                                {!variant.is_available && (
-                                  <div className="absolute inset-0 flex items-center justify-center">
-                                    <div className="w-full h-0.5 bg-red-500 transform -rotate-45"></div>
-                                  </div>
-                                )}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    );
-                  })}
-
-                  <div className="mb-6 pb-6 border-b">
-                    {hasDiscount && (
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-lg text-gray-400 line-through">{product.price.toFixed(2)} RON</span>
-                        <span className="bg-red-100 text-red-600 px-2 py-1 rounded text-sm font-bold">-{discountPercentage}%</span>
-                      </div>
-                    )}
-                    <div className="text-4xl font-bold text-red-600 mb-2">
-                      {displayPrice.toFixed(2)} <span className="text-2xl">RON</span>
-                    </div>
-                    <p className="text-sm text-gray-600">TVA inclus</p>
-                  </div>
-
-                  <div className="space-y-3 mb-6 pb-6 border-b">
-                    <div className="flex items-center gap-3 text-sm">
-                      {product.stock_quantity > 0 ? (
-                        <>
-                          <Check size={18} className="text-green-600 flex-shrink-0" />
-                          <span className="text-green-600 font-semibold">În stoc - {product.stock_quantity} bucăți disponibile</span>
-                        </>
-                      ) : (
-                        <>
-                          <Clock size={18} className="text-red-600 flex-shrink-0" />
-                          <span className="text-red-600 font-semibold">Stoc epuizat</span>
-                        </>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Truck size={18} className="text-blue-600 flex-shrink-0" />
-                      <span className="text-gray-700">Livrare <span className="font-semibold">24-48h</span> în toată România</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm">
-                      <Shield size={18} className="text-purple-600 flex-shrink-0" />
-                      <span className="text-gray-700">Garanție <span className="font-semibold">{product.warranty_months || 24} luni</span></span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="flex items-center border border-gray-300 rounded-lg">
-                      <button
-                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        className="px-4 py-2 hover:bg-gray-100 font-bold text-lg"
-                      >
-                        -
-                      </button>
-                      <span className="px-6 py-2 font-semibold border-x border-gray-300">{quantity}</span>
-                      <button
-                        onClick={() => setQuantity(Math.min(product.stock_quantity, quantity + 1))}
-                        className="px-4 py-2 hover:bg-gray-100 font-bold text-lg"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="flex gap-3 mb-4">
+              {product.images.length > 1 && (
+                <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
+                  {product.images.map((image, index) => (
                     <button
-                      onClick={handleAddToCart}
-                      disabled={product.stock_quantity === 0}
-                      className="flex-1 bg-[#0A2540] text-white py-4 rounded-xl hover:bg-[#0d3659] transition font-bold text-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
-                    >
-                      <ShoppingCart size={24} />
-                      Adaugă în coș
-                    </button>
-                    <button
-                      onClick={toggleFavorite}
-                      className={`px-6 py-4 rounded-xl border-2 transition shadow-lg ${
-                        isFavorite(product.id)
-                          ? 'border-red-500 bg-red-50'
-                          : 'border-gray-300 hover:border-red-500 bg-white'
+                      key={index}
+                      onClick={() => setCurrentImage(index)}
+                      className={`flex-shrink-0 w-20 h-20 rounded-xl overflow-hidden border-2 transition ${
+                        currentImage === index ? 'border-[#0A2540] shadow-lg' : 'border-gray-200 hover:border-gray-400'
                       }`}
                     >
-                      <Heart
-                        size={24}
-                        className={isFavorite(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-600'}
-                      />
+                      <img src={image} alt={`${product.name} ${index + 1}`} className="w-full h-full object-cover" />
                     </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-blue-50 p-3 rounded-lg text-center border border-blue-100">
-                      <Truck size={24} className="mx-auto text-blue-600 mb-1" />
-                      <p className="text-xs text-gray-700 font-semibold">Livrare rapidă</p>
-                    </div>
-                    <div className="bg-green-50 p-3 rounded-lg text-center border border-green-100">
-                      <Shield size={24} className="mx-auto text-green-600 mb-1" />
-                      <p className="text-xs text-gray-700 font-semibold">Garanție extinsă</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm p-6 mt-6">
-              <div className="border-b mb-6">
-                <div className="flex gap-6">
-                  <button
-                    onClick={() => setActiveTab('description')}
-                    className={`pb-4 px-2 font-semibold transition relative ${
-                      activeTab === 'description'
-                        ? 'text-[#0A2540] border-b-2 border-[#0A2540]'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    Descriere
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('specs')}
-                    className={`pb-4 px-2 font-semibold transition relative ${
-                      activeTab === 'specs'
-                        ? 'text-[#0A2540] border-b-2 border-[#0A2540]'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    Specificații
-                  </button>
-                  <button
-                    onClick={() => setActiveTab('reviews')}
-                    className={`pb-4 px-2 font-semibold transition relative ${
-                      activeTab === 'reviews'
-                        ? 'text-[#0A2540] border-b-2 border-[#0A2540]'
-                        : 'text-gray-600 hover:text-gray-900'
-                    }`}
-                  >
-                    Review-uri ({reviews.length})
-                  </button>
-                </div>
-              </div>
-
-              {activeTab === 'description' && (
-                <div className="prose max-w-none">
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">{product.description}</p>
-                </div>
-              )}
-
-              {activeTab === 'specs' && (
-                <div className="space-y-2">
-                  {product.specifications && Object.entries(product.specifications).map(([key, value], index) => (
-                    <div key={key} className={`flex py-3 ${index % 2 === 0 ? 'bg-gray-50' : 'bg-white'} px-4 rounded`}>
-                      <span className="font-semibold text-gray-700 w-1/3">{key}</span>
-                      <span className="text-gray-600 w-2/3">{String(value)}</span>
-                    </div>
                   ))}
-                </div>
-              )}
-
-              {activeTab === 'reviews' && (
-                <div className="space-y-6">
-                  {user && (
-                    <div className="bg-gray-50 rounded-xl p-6 border-2 border-dashed border-gray-300">
-                      <h3 className="font-bold text-lg text-gray-900 mb-4">Scrie un review</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">Rating</label>
-                          {renderStars(reviewRating, 24, true, setReviewRating)}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">Review</label>
-                          <textarea
-                            value={reviewText}
-                            onChange={(e) => setReviewText(e.target.value)}
-                            rows={4}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0A2540] focus:border-transparent"
-                            placeholder="Spune-ne ce părere ai despre acest produs..."
-                          />
-                        </div>
-                        <button
-                          onClick={handleSubmitReview}
-                          disabled={submittingReview || !reviewText.trim()}
-                          className="w-full bg-[#0A2540] text-white py-3 rounded-xl hover:bg-[#0d3659] transition font-semibold disabled:opacity-50"
-                        >
-                          {submittingReview ? 'Se trimite...' : 'Publică review'}
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  {reviews.length > 0 ? (
-                    <div className="space-y-4">
-                      {reviews.map((review) => (
-                        <div key={review.id} className="border-b pb-4 last:border-0">
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <p className="font-semibold text-gray-900">{review.user_profile?.full_name || 'Utilizator'}</p>
-                              <div className="flex items-center gap-2 mt-1">
-                                {renderStars(review.rating, 14)}
-                                <span className="text-sm text-gray-500">
-                                  {new Date(review.created_at).toLocaleDateString('ro-RO')}
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <p className="text-gray-700">{review.comment}</p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8">
-                      <Star size={48} className="mx-auto text-gray-300 mb-3" />
-                      <p className="text-gray-600">Acest produs nu are review-uri încă</p>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
           </div>
 
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-4">
-              <h3 className="font-bold text-lg text-gray-900 mb-4">De ce VOLCO?</h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Truck size={20} className="text-blue-600" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">Livrare gratuită</p>
-                    <p className="text-xs text-gray-600">Comenzi peste 500 RON</p>
-                  </div>
-                </div>
+          <div className="lg:col-span-5">
+            <div className="space-y-6">
+              <div>
+                {product.brand && (
+                  <div className="text-sm text-gray-500 mb-2">{product.brand.name}</div>
+                )}
+                <h1 className="text-3xl font-bold text-gray-900 leading-tight">{product.name}</h1>
+              </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Package size={20} className="text-green-600" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">Deschidere colet</p>
-                    <p className="text-xs text-gray-600">Verificare la livrare</p>
-                  </div>
+              <div className="flex items-center gap-4 pb-6 border-b">
+                <div className="flex items-center gap-2">
+                  {renderStars(Math.round(product.average_rating || product.rating), 18)}
+                  <span className="text-lg font-semibold text-gray-900">{(product.average_rating || product.rating).toFixed(1)}</span>
                 </div>
+                <button onClick={() => setActiveTab('reviews')} className="text-sm text-gray-500 hover:text-[#0A2540]">
+                  ({product.review_count} review-uri)
+                </button>
+              </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Shield size={20} className="text-purple-600" />
+              {variantTypes.map(type => {
+                const variants = getVariantsByType(type);
+                if (variants.length === 0) return null;
+
+                return (
+                  <div key={type}>
+                    <label className="block text-sm font-bold text-gray-900 mb-3 uppercase tracking-wide">{type}</label>
+                    <div className="flex flex-wrap gap-2.5">
+                      {variants.map((variant) => {
+                        const isSelected = selectedVariants[type] === variant.value;
+                        const isColor = type.toLowerCase().includes('culoare') || type.toLowerCase().includes('color');
+
+                        return (
+                          <button
+                            key={variant.id}
+                            onClick={() => handleVariantSelect(type, variant.value)}
+                            disabled={!variant.is_available}
+                            className={`relative transition-all ${
+                              isColor
+                                ? 'w-14 h-14 rounded-full border-4'
+                                : 'px-6 py-3.5 rounded-xl border-2 font-semibold min-w-[80px]'
+                            } ${
+                              isSelected
+                                ? 'border-[#0A2540] shadow-lg scale-105'
+                                : 'border-gray-200 hover:border-[#0A2540] hover:shadow-md'
+                            } ${!variant.is_available ? 'opacity-30 cursor-not-allowed' : ''}`}
+                            style={isColor && variant.is_available ? {
+                              backgroundColor: isSelected ? 'transparent' : variant.value.toLowerCase(),
+                              borderColor: isSelected ? '#0A2540' : variant.value.toLowerCase()
+                            } : undefined}
+                          >
+                            {!isColor && (
+                              <span className={isSelected ? 'text-[#0A2540]' : 'text-gray-900'}>
+                                {variant.value}
+                              </span>
+                            )}
+                            {!variant.is_available && (
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className={`w-full h-0.5 bg-gray-400 transform rotate-45 ${isColor ? 'rounded-full' : ''}`}></div>
+                              </div>
+                            )}
+                            {isSelected && (
+                              <div className="absolute -top-1 -right-1 w-5 h-5 bg-[#0A2540] rounded-full flex items-center justify-center">
+                                <Check size={12} className="text-white" />
+                              </div>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">Garanție extinsă</p>
-                    <p className="text-xs text-gray-600">Până la 36 luni</p>
+                );
+              })}
+
+              <div className="py-6 border-y">
+                {hasDiscount && (
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-xl text-gray-400 line-through">{product.price.toFixed(2)} RON</span>
+                    <span className="bg-red-100 text-red-600 px-3 py-1 rounded-lg text-sm font-bold">-{discountPercentage}%</span>
                   </div>
+                )}
+                <div className="text-5xl font-bold text-[#0A2540] mb-1">
+                  {displayPrice.toFixed(2)} <span className="text-3xl">RON</span>
                 </div>
+                <p className="text-sm text-gray-500">TVA inclus</p>
+              </div>
 
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Award size={20} className="text-orange-600" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-gray-900 text-sm">Retur 30 zile</p>
-                    <p className="text-xs text-gray-600">Fără complicații</p>
-                  </div>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  {product.stock_quantity > 0 ? (
+                    <>
+                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                      <span className="text-green-600 font-semibold">În stoc ({product.stock_quantity} buc)</span>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                      <span className="text-red-600 font-semibold">Stoc epuizat</span>
+                    </>
+                  )}
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Truck size={20} />
+                  <span>Livrare gratuită în 24-48h</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Shield size={20} />
+                  <span>Garanție {product.warranty_months || 24} luni</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex items-center border-2 border-gray-300 rounded-xl overflow-hidden">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="px-5 py-3 hover:bg-gray-100 font-bold text-xl transition"
+                  >
+                    -
+                  </button>
+                  <span className="px-8 py-3 font-bold text-lg border-x-2 border-gray-300">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(Math.min(product.stock_quantity, quantity + 1))}
+                    className="px-5 py-3 hover:bg-gray-100 font-bold text-xl transition"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <button
+                onClick={handleAddToCart}
+                disabled={product.stock_quantity === 0}
+                className="w-full bg-[#0A2540] text-white py-5 rounded-xl hover:bg-[#0d3659] transition font-bold text-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl"
+              >
+                <ShoppingCart size={24} />
+                Adaugă în coș
+              </button>
+
+              <div className="grid grid-cols-3 gap-3 pt-4">
+                <div className="bg-blue-50 p-4 rounded-xl text-center">
+                  <Truck size={28} className="mx-auto text-blue-600 mb-2" />
+                  <p className="text-xs font-semibold text-gray-700">Livrare rapidă</p>
+                </div>
+                <div className="bg-green-50 p-4 rounded-xl text-center">
+                  <Package size={28} className="mx-auto text-green-600 mb-2" />
+                  <p className="text-xs font-semibold text-gray-700">Deschidere colet</p>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-xl text-center">
+                  <Award size={28} className="mx-auto text-purple-600 mb-2" />
+                  <p className="text-xs font-semibold text-gray-700">Retur 30 zile</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
+        <div className="mt-16">
+          <div className="border-b mb-8">
+            <div className="flex gap-8">
+              <button
+                onClick={() => setActiveTab('description')}
+                className={`pb-4 px-2 font-bold transition relative text-lg ${
+                  activeTab === 'description'
+                    ? 'text-[#0A2540] border-b-4 border-[#0A2540]'
+                    : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                Descriere
+              </button>
+              <button
+                onClick={() => setActiveTab('specs')}
+                className={`pb-4 px-2 font-bold transition relative text-lg ${
+                  activeTab === 'specs'
+                    ? 'text-[#0A2540] border-b-4 border-[#0A2540]'
+                    : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                Specificații
+              </button>
+              <button
+                onClick={() => setActiveTab('reviews')}
+                className={`pb-4 px-2 font-bold transition relative text-lg ${
+                  activeTab === 'reviews'
+                    ? 'text-[#0A2540] border-b-4 border-[#0A2540]'
+                    : 'text-gray-500 hover:text-gray-900'
+                }`}
+              >
+                Review-uri ({reviews.length})
+              </button>
+            </div>
+          </div>
+
+          {activeTab === 'description' && (
+            <div className="max-w-4xl">
+              <p className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">{product.description}</p>
+            </div>
+          )}
+
+          {activeTab === 'specs' && (
+            <div className="max-w-4xl">
+              {product.specifications && Object.entries(product.specifications).map(([key, value], index) => (
+                <div key={key} className={`flex py-4 ${index % 2 === 0 ? 'bg-gray-50' : ''} px-6 rounded-lg`}>
+                  <span className="font-semibold text-gray-900 w-1/3">{key}</span>
+                  <span className="text-gray-700 w-2/3">{String(value)}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'reviews' && (
+            <div className="max-w-4xl space-y-8">
+              {user && (
+                <div className="bg-gray-50 rounded-2xl p-8 border-2 border-gray-200">
+                  <h3 className="font-bold text-xl text-gray-900 mb-6">Scrie un review</h3>
+                  <div className="space-y-5">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">Rating</label>
+                      {renderStars(reviewRating, 28, true, setReviewRating)}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">Review</label>
+                      <textarea
+                        value={reviewText}
+                        onChange={(e) => setReviewText(e.target.value)}
+                        rows={5}
+                        className="w-full px-4 py-4 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0A2540] focus:border-transparent text-base"
+                        placeholder="Spune-ne ce părere ai despre acest produs..."
+                      />
+                    </div>
+                    <button
+                      onClick={handleSubmitReview}
+                      disabled={submittingReview || !reviewText.trim()}
+                      className="w-full bg-[#0A2540] text-white py-4 rounded-xl hover:bg-[#0d3659] transition font-bold disabled:opacity-50"
+                    >
+                      {submittingReview ? 'Se trimite...' : 'Publică review'}
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {reviews.length > 0 ? (
+                <div className="space-y-6">
+                  {reviews.map((review) => (
+                    <div key={review.id} className="border-b pb-6 last:border-0">
+                      <div className="flex items-start justify-between mb-3">
+                        <div>
+                          <p className="font-bold text-gray-900 text-lg">{review.user_profile?.full_name || 'Utilizator'}</p>
+                          <div className="flex items-center gap-3 mt-2">
+                            {renderStars(review.rating, 16)}
+                            <span className="text-sm text-gray-500">
+                              {new Date(review.created_at).toLocaleDateString('ro-RO', { year: 'numeric', month: 'long', day: 'numeric' })}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <p className="text-gray-700 text-base leading-relaxed">{review.comment}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-16">
+                  <Star size={64} className="mx-auto text-gray-300 mb-4" />
+                  <p className="text-gray-500 text-lg">Acest produs nu are review-uri încă</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
         {similarProducts.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6">Produse similare</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="mt-20">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">Produse similare</h2>
+            <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
               {similarProducts.map((product) => (
                 <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
               ))}
