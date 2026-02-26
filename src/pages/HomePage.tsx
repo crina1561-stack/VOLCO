@@ -17,25 +17,32 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   const banners = [
     {
-      title: 'Laptopuri Gaming Ultimate',
-      subtitle: 'Performanță maximă pentru jocurile tale favorite',
-      discount: 'Până la 30% reducere',
-      bg: 'from-slate-900 to-blue-900',
+      title: 'Black Friday la VOLCO',
+      subtitle: 'Reduceri de până la 50% la toate categoriile',
+      discount: 'Oferte limitate',
+      bg: 'from-red-900 via-red-800 to-red-900',
       image: 'https://images.pexels.com/photos/7974/pexels-photo.jpg'
     },
     {
-      title: 'Componente PC Premium',
-      subtitle: 'Cele mai noi plăci video și procesoare',
-      discount: 'Oferte speciale',
-      bg: 'from-purple-900 to-pink-900',
-      image: 'https://images.pexels.com/photos/2582935/pexels-photo-2582935.jpeg'
+      title: 'Telefoane iPhone & Samsung',
+      subtitle: 'Cele mai noi modele la prețuri speciale',
+      discount: 'Transport gratuit',
+      bg: 'from-gray-900 via-gray-800 to-gray-900',
+      image: 'https://images.pexels.com/photos/788946/pexels-photo-788946.jpeg'
     },
     {
-      title: 'Monitoare 4K & Gaming',
-      subtitle: 'Experiență vizuală de top',
-      discount: 'Până la 25% reducere',
-      bg: 'from-green-900 to-teal-900',
-      image: 'https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg'
+      title: 'Parfumuri Premium',
+      subtitle: 'Branduri de lux pentru tine și cei dragi',
+      discount: 'Până la 30% reducere',
+      bg: 'from-pink-900 via-purple-900 to-pink-900',
+      image: 'https://images.pexels.com/photos/1961795/pexels-photo-1961795.jpeg'
+    },
+    {
+      title: 'Electrocasnice Smart',
+      subtitle: 'Tehnologie inteligentă pentru casa ta',
+      discount: 'Oferte exclusive',
+      bg: 'from-blue-900 via-cyan-900 to-blue-900',
+      image: 'https://images.pexels.com/photos/2343468/pexels-photo-2343468.jpeg'
     }
   ];
 
@@ -140,8 +147,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               { icon: Award, title: 'Calitate Premium', desc: 'Produse certificate' }
             ].map((feature, index) => (
               <div key={index} className="flex items-center gap-4">
-                <div className="p-3 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-lg">
-                  <feature.icon className="text-blue-600" size={32} />
+                <div className="p-3 bg-gradient-to-br from-red-50 to-red-100 rounded-lg">
+                  <feature.icon className="text-red-600" size={32} />
                 </div>
                 <div>
                   <h4 className="font-bold text-gray-900">{feature.title}</h4>
@@ -159,7 +166,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
             <h2 className="text-3xl font-bold text-gray-900">Categorii Principale</h2>
             <button
               onClick={() => onNavigate('categories')}
-              className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+              className="text-red-600 hover:text-red-700 font-semibold flex items-center gap-1"
             >
               Vezi toate <ChevronRight size={20} />
             </button>
@@ -169,7 +176,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <button
                 key={category.id}
                 onClick={() => onNavigate('category', category.slug)}
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border border-gray-100 hover:border-blue-200 group"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-all border border-gray-100 hover:border-red-200 group"
               >
                 <div className="text-4xl mb-3">{category.icon}</div>
                 <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition">
@@ -186,7 +193,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <h2 className="text-3xl font-bold text-gray-900">Produse Recomandate</h2>
               <button
                 onClick={() => onNavigate('products')}
-                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+                className="text-red-600 hover:text-red-700 font-semibold flex items-center gap-1"
               >
                 Vezi toate <ChevronRight size={20} />
               </button>
@@ -205,7 +212,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <h2 className="text-3xl font-bold text-gray-900">Produse Noi</h2>
               <button
                 onClick={() => onNavigate('products')}
-                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+                className="text-red-600 hover:text-red-700 font-semibold flex items-center gap-1"
               >
                 Vezi toate <ChevronRight size={20} />
               </button>
@@ -224,7 +231,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               <h2 className="text-3xl font-bold text-gray-900">Cele Mai Vândute</h2>
               <button
                 onClick={() => onNavigate('products')}
-                className="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-1"
+                className="text-red-600 hover:text-red-700 font-semibold flex items-center gap-1"
               >
                 Vezi toate <ChevronRight size={20} />
               </button>
@@ -237,9 +244,9 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
         )}
 
-        <div className="bg-gradient-to-r from-blue-600 to-cyan-500 rounded-2xl p-12 text-white text-center">
-          <h2 className="text-4xl font-bold mb-4">Abonează-te la Newsletter</h2>
-          <p className="text-xl mb-8 text-blue-100">
+        <div className="bg-gradient-to-r from-red-600 to-red-700 rounded-2xl p-12 text-white text-center shadow-2xl">
+          <h2 className="text-4xl font-bold mb-4">Abonează-te la Newsletter VOLCO</h2>
+          <p className="text-xl mb-8 text-red-100">
             Primește oferte exclusive și noutăți despre cele mai noi produse
           </p>
           <div className="max-w-md mx-auto flex gap-2">
@@ -248,7 +255,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
               placeholder="Adresa ta de email"
               className="flex-1 px-4 py-3 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-white"
             />
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+            <button className="bg-white text-red-600 px-8 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
               Abonează-te
             </button>
           </div>

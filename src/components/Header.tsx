@@ -1,10 +1,11 @@
-import { ShoppingCart, User, Heart, Search, Menu, X } from 'lucide-react';
+import { ShoppingCart, User, Heart, Search, Menu, X, MapPin, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
+import MegaMenu from './MegaMenu';
 
 interface HeaderProps {
-  onNavigate: (page: string) => void;
+  onNavigate: (page: string, slug?: string) => void;
   currentPage: string;
   onSearchOpen: () => void;
 }
@@ -16,216 +17,242 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-2">
+    <header className="sticky top-0 z-50 bg-white shadow-lg">
+      <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-2">
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center text-sm">
-          <span>Transport gratuit pentru comenzi peste 500 RON</span>
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <MapPin size={14} />
+              <span>Livrare în toată România</span>
+            </div>
+            <div className="hidden md:flex items-center gap-2">
+              <Phone size={14} />
+              <span>0800 123 456</span>
+            </div>
+          </div>
           <div className="flex gap-4">
-            <button onClick={() => onNavigate('contact')} className="hover:text-blue-400 transition">Contact</button>
-            <button onClick={() => onNavigate('despre')} className="hover:text-blue-400 transition">Despre Noi</button>
+            <button onClick={() => onNavigate('despre')} className="hover:text-red-500 transition">Despre Noi</button>
+            <button onClick={() => onNavigate('contact')} className="hover:text-red-500 transition">Contact</button>
+            <button className="hover:text-red-500 transition">Ajutor</button>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="flex items-center justify-between gap-4">
-          <button onClick={() => onNavigate('home')} className="flex items-center gap-2">
-            <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-4 py-2 rounded-lg font-bold text-2xl shadow-lg hover:shadow-xl transition-shadow">
-              NextPC
-            </div>
-          </button>
-
-          <div className="hidden md:flex flex-1 max-w-2xl mx-8">
-            <div className="relative w-full">
-              <input
-                type="text"
-                placeholder="Caută produse, categorii, branduri..."
-                onClick={onSearchOpen}
-                className="w-full pl-12 pr-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition"
-              />
-              <Search className="absolute left-4 top-3.5 text-gray-400" size={20} />
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <button
-              onClick={onSearchOpen}
-              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition"
-            >
-              <Search size={24} />
-            </button>
-
-            {user ? (
+      <div className="border-b">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <button onClick={() => onNavigate('home')} className="flex items-center gap-2 group">
               <div className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-lg transition"
-                >
-                  <User size={24} />
-                  <span className="hidden md:inline">Contul Meu</span>
-                </button>
-                {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border py-2 z-50">
-                    <button
-                      onClick={() => {
-                        onNavigate('profile');
-                        setUserMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-100 transition"
-                    >
-                      Profilul Meu
-                    </button>
-                    <button
-                      onClick={() => {
-                        onNavigate('orders');
-                        setUserMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-100 transition"
-                    >
-                      Comenzile Mele
-                    </button>
-                    <button
-                      onClick={() => {
-                        onNavigate('wishlist');
-                        setUserMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-100 transition"
-                    >
-                      Lista de Dorințe
-                    </button>
-                    <hr className="my-2" />
-                    <button
-                      onClick={() => {
-                        signOut();
-                        setUserMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-2 text-left hover:bg-gray-100 text-red-600 transition"
-                    >
-                      Deconectare
-                    </button>
-                  </div>
-                )}
+                <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-black text-3xl shadow-lg group-hover:shadow-xl transition-all tracking-tight">
+                  VOLCO
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-full h-full bg-gradient-to-r from-red-700 to-red-800 rounded-xl -z-10"></div>
               </div>
-            ) : (
-              <button
-                onClick={() => onNavigate('login')}
-                className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded-lg transition"
-              >
-                <User size={24} />
-                <span className="hidden md:inline">Autentificare</span>
-              </button>
-            )}
-
-            <button
-              onClick={() => onNavigate('wishlist')}
-              className="p-2 hover:bg-gray-100 rounded-lg transition relative"
-            >
-              <Heart size={24} />
             </button>
 
-            <button
-              onClick={() => onNavigate('cart')}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-cyan-500 text-white rounded-lg hover:shadow-lg transition relative"
-            >
-              <ShoppingCart size={24} />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-                  {totalItems}
-                </span>
+            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  placeholder="Caută peste 100.000 de produse..."
+                  onClick={onSearchOpen}
+                  className="w-full pl-12 pr-32 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-red-500 transition text-base"
+                />
+                <Search className="absolute left-4 top-4 text-gray-400" size={20} />
+                <button
+                  onClick={onSearchOpen}
+                  className="absolute right-2 top-2 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold"
+                >
+                  Caută
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={onSearchOpen}
+                className="md:hidden p-2.5 hover:bg-gray-100 rounded-lg transition"
+              >
+                <Search size={22} />
+              </button>
+
+              {user ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-lg transition border border-gray-200"
+                  >
+                    <User size={20} />
+                    <div className="hidden lg:block text-left">
+                      <div className="text-xs text-gray-500">Bună,</div>
+                      <div className="text-sm font-semibold text-gray-900">Contul Meu</div>
+                    </div>
+                  </button>
+                  {userMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border py-2 z-50">
+                      <div className="px-4 py-3 border-b">
+                        <p className="font-semibold text-gray-900">Contul Meu</p>
+                        <p className="text-sm text-gray-500">{user.email}</p>
+                      </div>
+                      <button
+                        onClick={() => {
+                          onNavigate('profile');
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-left hover:bg-gray-50 transition text-sm"
+                      >
+                        Profilul Meu
+                      </button>
+                      <button
+                        onClick={() => {
+                          onNavigate('orders');
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-left hover:bg-gray-50 transition text-sm"
+                      >
+                        Comenzile Mele
+                      </button>
+                      <button
+                        onClick={() => {
+                          onNavigate('wishlist');
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-left hover:bg-gray-50 transition text-sm"
+                      >
+                        Lista de Dorințe
+                      </button>
+                      <button
+                        onClick={() => {
+                          onNavigate('returns');
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-left hover:bg-gray-50 transition text-sm"
+                      >
+                        Returnări
+                      </button>
+                      <hr className="my-2" />
+                      <button
+                        onClick={() => {
+                          signOut();
+                          setUserMenuOpen(false);
+                        }}
+                        className="w-full px-4 py-2.5 text-left hover:bg-red-50 text-red-600 transition text-sm font-medium"
+                      >
+                        Deconectare
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button
+                  onClick={() => onNavigate('login')}
+                  className="flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-lg transition border border-gray-200"
+                >
+                  <User size={20} />
+                  <div className="hidden lg:block text-left">
+                    <div className="text-xs text-gray-500">Bună,</div>
+                    <div className="text-sm font-semibold text-gray-900">Intră în cont</div>
+                  </div>
+                </button>
               )}
-              <span className="hidden md:inline">Coș</span>
-            </button>
 
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
-        </div>
+              <button
+                onClick={() => onNavigate('wishlist')}
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-lg transition border border-gray-200 relative"
+              >
+                <Heart size={20} />
+                <span className="text-sm font-medium">Favorite</span>
+              </button>
 
-        {mobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t pt-4">
-            <div className="flex flex-col gap-2">
               <button
-                onClick={() => {
-                  onNavigate('products');
-                  setMobileMenuOpen(false);
-                }}
-                className="px-4 py-2 text-left hover:bg-gray-100 rounded-lg transition"
+                onClick={() => onNavigate('cart')}
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg transition-all relative font-semibold"
               >
-                Toate Produsele
+                <ShoppingCart size={20} />
+                {totalItems > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-gray-900 text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md">
+                    {totalItems}
+                  </span>
+                )}
+                <span className="hidden md:inline">Coș</span>
               </button>
+
               <button
-                onClick={() => {
-                  onNavigate('categories');
-                  setMobileMenuOpen(false);
-                }}
-                className="px-4 py-2 text-left hover:bg-gray-100 rounded-lg transition"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition"
               >
-                Categorii
-              </button>
-              <button
-                onClick={() => {
-                  onNavigate('offers');
-                  setMobileMenuOpen(false);
-                }}
-                className="px-4 py-2 text-left hover:bg-gray-100 rounded-lg transition"
-              >
-                Oferte
+                {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             </div>
           </div>
-        )}
+
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 border-t pt-4">
+              <div className="flex flex-col gap-2">
+                <button
+                  onClick={() => {
+                    onNavigate('products');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition font-medium"
+                >
+                  Toate Produsele
+                </button>
+                <button
+                  onClick={() => {
+                    onNavigate('categories');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition font-medium"
+                >
+                  Categorii
+                </button>
+                <button
+                  onClick={() => {
+                    onNavigate('offers');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition font-medium text-red-600"
+                >
+                  Oferte Speciale
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className="bg-gray-50 border-t">
+      <div className="hidden md:block bg-white border-b">
         <div className="max-w-7xl mx-auto px-4">
-          <nav className="hidden md:flex gap-8 py-3">
-            <button
-              onClick={() => onNavigate('products')}
-              className="text-gray-700 hover:text-blue-600 font-medium transition"
-            >
-              Toate Produsele
-            </button>
-            <button
-              onClick={() => onNavigate('laptops')}
-              className="text-gray-700 hover:text-blue-600 font-medium transition"
-            >
-              Laptopuri
-            </button>
-            <button
-              onClick={() => onNavigate('desktops')}
-              className="text-gray-700 hover:text-blue-600 font-medium transition"
-            >
-              Desktop
-            </button>
-            <button
-              onClick={() => onNavigate('monitors')}
-              className="text-gray-700 hover:text-blue-600 font-medium transition"
-            >
-              Monitoare
-            </button>
-            <button
-              onClick={() => onNavigate('peripherals')}
-              className="text-gray-700 hover:text-blue-600 font-medium transition"
-            >
-              Periferice
-            </button>
-            <button
-              onClick={() => onNavigate('components')}
-              className="text-gray-700 hover:text-blue-600 font-medium transition"
-            >
-              Componente
-            </button>
+          <MegaMenu onNavigate={onNavigate} />
+        </div>
+      </div>
+
+      <div className="bg-red-50 border-b border-red-100">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <div className="flex items-center justify-between text-sm">
             <button
               onClick={() => onNavigate('offers')}
-              className="text-red-600 hover:text-red-700 font-bold transition"
+              className="text-red-700 font-bold hover:text-red-800 transition flex items-center gap-2"
             >
-              Oferte
+              <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-black">HOT</span>
+              Super Oferte - Până la -50%
             </button>
-          </nav>
+            <div className="hidden md:flex gap-6 text-gray-600">
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                Livrare Gratuită peste 500 RON
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                Garanție Extinsă
+              </span>
+              <span className="flex items-center gap-2">
+                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
+                Retur 30 zile
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </header>

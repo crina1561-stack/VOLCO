@@ -10,20 +10,20 @@ export default function Footer({ onNavigate }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-2 rounded-lg font-bold text-xl mb-4 inline-block">
-              NextPC
+            <div className="bg-gradient-to-r from-red-600 to-red-700 px-5 py-2 rounded-xl font-black text-2xl mb-4 inline-block shadow-lg">
+              VOLCO
             </div>
             <p className="text-gray-400 mb-4">
-              Magazinul tău de încredere pentru electronice și IT premium.
+              Magazinul tău de încredere pentru electronice, tehnologie și lifestyle premium.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-blue-600 transition">
+              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-red-600 transition">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-blue-600 transition">
+              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-red-600 transition">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-blue-600 transition">
+              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-red-600 transition">
                 <Twitter size={20} />
               </a>
             </div>
@@ -94,7 +94,7 @@ export default function Footer({ onNavigate }: FooterProps) {
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={18} />
-                <span>contact@nextpc.ro</span>
+                <span>contact@volco.ro</span>
               </li>
             </ul>
           </div>
@@ -102,7 +102,7 @@ export default function Footer({ onNavigate }: FooterProps) {
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-400 text-sm">
-            © 2024 NextPC. Toate drepturile rezervate.
+            © 2024 VOLCO. Toate drepturile rezervate.
           </p>
           <div className="flex gap-6 text-sm text-gray-400">
             <button className="hover:text-white transition">Cookies</button>

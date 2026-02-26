@@ -52,7 +52,7 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
   return (
     <div
       onClick={() => onNavigate('product', product.slug)}
-      className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden border border-gray-100 hover:border-blue-200"
+      className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group overflow-hidden border border-gray-100 hover:border-red-200"
     >
       <div className="relative overflow-hidden bg-gray-50">
         <img
@@ -104,7 +104,7 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
           <p className="text-sm text-gray-500 font-medium mb-1">{product.brand.name}</p>
         )}
 
-        <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2 min-h-[3rem] group-hover:text-blue-600 transition">
+        <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2 min-h-[3rem] group-hover:text-red-600 transition">
           {product.name}
         </h3>
 
@@ -142,7 +142,7 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
           <button
             onClick={handleAddToCart}
             disabled={product.stock_quantity === 0}
-            className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-lg font-semibold hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group-hover:scale-[1.02]"
+            className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-3 rounded-lg font-semibold hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group-hover:scale-[1.02]"
           >
             <ShoppingCart size={20} />
             Adaugă în Coș

@@ -49,11 +49,11 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-cyan-50 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="inline-block bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-6 py-3 rounded-xl font-bold text-3xl shadow-lg mb-4">
-            NextPC
+          <div className="inline-block bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-black text-3xl shadow-lg mb-4">
+            VOLCO
           </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             {isLogin ? 'Bun venit înapoi!' : 'Creează cont nou'}
@@ -77,7 +77,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                     required
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition"
+                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-red-500 transition"
                     placeholder="Ion Popescu"
                   />
                 </div>
@@ -95,7 +95,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition"
+                  className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-red-500 transition"
                   placeholder="email@exemplu.ro"
                 />
               </div>
@@ -112,7 +112,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="w-full pl-11 pr-11 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition"
+                  className="w-full pl-11 pr-11 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-red-500 transition"
                   placeholder="••••••••"
                 />
                 <button
@@ -137,7 +137,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                     required
                     value={formData.confirmPassword}
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 transition"
+                    className="w-full pl-11 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-red-500 transition"
                     placeholder="••••••••"
                   />
                 </div>
@@ -153,7 +153,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-3 rounded-lg font-bold text-lg hover:shadow-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-3 rounded-lg font-bold text-lg hover:shadow-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Se procesează...' : isLogin ? 'Autentificare' : 'Înregistrare'}
             </button>
@@ -165,7 +165,7 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
                 setIsLogin(!isLogin);
                 setError('');
               }}
-              className="text-blue-600 hover:text-blue-700 font-semibold"
+              className="text-red-600 hover:text-blue-700 font-semibold"
             >
               {isLogin ? 'Nu ai cont? Înregistrează-te' : 'Ai deja cont? Autentifică-te'}
             </button>

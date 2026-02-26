@@ -9,6 +9,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutPage from './pages/CheckoutPage';
 import AuthPage from './pages/AuthPage';
+import ProfilePage from './pages/ProfilePage';
 import SearchModal from './pages/SearchModal';
 import { CheckCircle } from 'lucide-react';
 
@@ -40,7 +41,7 @@ function AppContent() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-red-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Se încarcă...</p>
         </div>
       </div>
@@ -71,15 +72,23 @@ function AppContent() {
         {currentPage === 'product' && pageData && <ProductDetailPage productSlug={pageData} onNavigate={navigate} />}
         {currentPage === 'cart' && <CartPage onNavigate={navigate} />}
         {currentPage === 'checkout' && <CheckoutPage onNavigate={navigate} />}
+        {currentPage === 'profile' && <ProfilePage onNavigate={navigate} />}
+        {currentPage === 'orders' && <ProfilePage onNavigate={navigate} />}
         {currentPage === 'order-success' && (
           <div className="min-h-screen bg-gray-50 flex items-center justify-center">
             <div className="bg-white rounded-2xl shadow-xl p-12 text-center max-w-md">
               <CheckCircle size={64} className="mx-auto text-green-500 mb-4" />
               <h1 className="text-3xl font-bold text-gray-900 mb-4">Comandă Plasată cu Succes!</h1>
-              <p className="text-gray-600 mb-8">Mulțumim pentru comandă. Vei primi un email de confirmare în curând.</p>
+              <p className="text-gray-600 mb-8">Mulțumim pentru comandă. Vei primi un email de confirmare în curând și o factură pe email.</p>
+              <button
+                onClick={() => navigate('orders')}
+                className="px-8 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold mb-3 w-full"
+              >
+                Vezi Comanda
+              </button>
               <button
                 onClick={() => navigate('home')}
-                className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+                className="px-8 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition font-semibold w-full"
               >
                 Înapoi la Pagina Principală
               </button>
