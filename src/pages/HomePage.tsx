@@ -244,6 +244,41 @@ export default function HomePage({ onNavigate }: HomePageProps) {
           </div>
         )}
 
+        <div
+          onClick={() => onNavigate('vendor-marketplace')}
+          className="bg-gradient-to-r from-[#0A2540] via-blue-700 to-cyan-600 rounded-2xl p-12 text-white shadow-2xl mb-12 cursor-pointer hover:shadow-3xl transition-all hover:scale-[1.02]"
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <div className="bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full">
+                <span className="font-bold text-lg">VOLCO Marketplace</span>
+              </div>
+            </div>
+            <h2 className="text-5xl font-bold mb-4 text-center">
+              Crește-ți afacerea!
+            </h2>
+            <p className="text-2xl mb-6 text-center">
+              Acces instant la <span className="font-bold">sute de mii de clienți unici</span>, zilnic
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 mb-8">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">✓</span>
+                <span className="text-lg">Înregistrarea afacerii tale este <strong>gratuită</strong></span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">✓</span>
+                <span className="text-lg">Ești la doar <strong>câteva click-uri</strong> de vânzări spectaculoase</span>
+              </div>
+            </div>
+            <div className="text-center">
+              <button className="bg-white text-[#0A2540] px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition shadow-xl inline-flex items-center gap-2">
+                Vreau să vând pe VOLCO
+                <ChevronRight size={24} />
+              </button>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-gradient-to-r from-red-600 to-red-700 rounded-2xl p-12 text-white text-center shadow-2xl">
           <h2 className="text-4xl font-bold mb-4">Abonează-te la Newsletter VOLCO</h2>
           <p className="text-xl mb-8 text-red-100">

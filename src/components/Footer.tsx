@@ -132,11 +132,31 @@ export default function Footer({ onNavigate }: FooterProps) {
             <p className="text-gray-400 text-sm">
               © 2024 VOLCO. Toate drepturile rezervate.
             </p>
-            <div className="flex gap-6 text-sm text-gray-400">
-              <button className="hover:text-white transition">Termeni si conditii</button>
-              <button className="hover:text-white transition">Protecția Datelor</button>
-              <button className="hover:text-white transition">GDPR</button>
-              <button className="hover:text-white transition">A.N.P.C.</button>
+            <div className="flex flex-wrap gap-4 md:gap-6 text-sm text-gray-400 justify-center md:justify-end">
+              <button
+                onClick={() => onNavigate('legal/termeni-conditii')}
+                className="hover:text-white transition"
+              >
+                Termeni si conditii
+              </button>
+              <button
+                onClick={() => onNavigate('legal/protectia-datelor')}
+                className="hover:text-white transition"
+              >
+                Protecția Datelor
+              </button>
+              <button
+                onClick={() => onNavigate('legal/gdpr')}
+                className="hover:text-white transition"
+              >
+                GDPR
+              </button>
+              <button
+                onClick={() => onNavigate('legal/anpc')}
+                className="hover:text-white transition"
+              >
+                A.N.P.C.
+              </button>
             </div>
           </div>
           <div className="text-center">

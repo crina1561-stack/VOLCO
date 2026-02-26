@@ -12,6 +12,8 @@ import AuthPage from './pages/AuthPage';
 import ProfilePage from './pages/ProfilePage';
 import SearchModal from './pages/SearchModal';
 import CookieConsent from './components/CookieConsent';
+import LegalPage from './pages/LegalPage';
+import VendorMarketplacePage from './pages/VendorMarketplacePage';
 import { CheckCircle } from 'lucide-react';
 
 function AppContent() {
@@ -75,6 +77,8 @@ function AppContent() {
         {currentPage === 'checkout' && <CheckoutPage onNavigate={navigate} />}
         {currentPage === 'profile' && <ProfilePage onNavigate={navigate} />}
         {currentPage === 'orders' && <ProfilePage onNavigate={navigate} />}
+        {currentPage === 'vendor-marketplace' && <VendorMarketplacePage onNavigate={navigate} />}
+        {currentPage.startsWith('legal/') && <LegalPage slug={currentPage.replace('legal/', '')} onNavigate={navigate} />}
         {currentPage === 'order-success' && (
           <div className="min-h-screen bg-gray-50 flex items-center justify-center">
             <div className="bg-white rounded-2xl shadow-xl p-12 text-center max-w-md">

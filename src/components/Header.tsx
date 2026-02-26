@@ -41,11 +41,11 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
       <div className="border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
-            <button onClick={() => onNavigate('home')} className="flex items-center gap-2 group">
+            <button onClick={() => onNavigate('home')} className="flex items-center gap-2 group py-2">
               <img
                 src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
                 alt="VOLCO Logo"
-                className="h-10 md:h-12 w-auto group-hover:scale-105 transition-transform"
+                className="h-16 md:h-20 w-auto group-hover:scale-105 transition-transform"
               />
             </button>
 
