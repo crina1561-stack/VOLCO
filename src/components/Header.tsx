@@ -31,9 +31,9 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
             </div>
           </div>
           <div className="flex gap-4">
-            <button onClick={() => onNavigate('despre')} className="hover:text-red-500 transition">Despre Noi</button>
-            <button onClick={() => onNavigate('contact')} className="hover:text-red-500 transition">Contact</button>
-            <button className="hover:text-red-500 transition">Ajutor</button>
+            <button onClick={() => onNavigate('despre')} className="hover:text-[#0A2540] transition">Despre Noi</button>
+            <button onClick={() => onNavigate('contact')} className="hover:text-[#0A2540] transition">Contact</button>
+            <button className="hover:text-[#0A2540] transition">Ajutor</button>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
           <div className="flex items-center justify-between gap-4">
             <button onClick={() => onNavigate('home')} className="flex items-center gap-2 group">
               <div className="relative">
-                <div className="bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-black text-3xl shadow-lg group-hover:shadow-xl transition-all tracking-tight">
+                <div className="bg-gradient-to-r from-[#0A2540] to-[#0d3659] text-white px-6 py-3 rounded-xl font-black text-3xl shadow-lg group-hover:shadow-xl transition-all tracking-tight">
                   VOLCO
                 </div>
                 <div className="absolute -bottom-1 -right-1 w-full h-full bg-gradient-to-r from-red-700 to-red-800 rounded-xl -z-10"></div>
@@ -56,12 +56,12 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                   type="text"
                   placeholder="Caută peste 100.000 de produse..."
                   onClick={onSearchOpen}
-                  className="w-full pl-12 pr-32 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-red-500 transition text-base"
+                  className="w-full pl-12 pr-32 py-3.5 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-[#0A2540] transition text-base"
                 />
                 <Search className="absolute left-4 top-4 text-gray-400" size={20} />
                 <button
                   onClick={onSearchOpen}
-                  className="absolute right-2 top-2 px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold"
+                  className="absolute right-2 top-2 px-6 py-2 bg-[#0A2540] text-white rounded-xl hover:bg-[#0d3659] transition font-semibold"
                 >
                   Caută
                 </button>
@@ -71,7 +71,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
             <div className="flex items-center gap-3">
               <button
                 onClick={onSearchOpen}
-                className="md:hidden p-2.5 hover:bg-gray-100 rounded-lg transition"
+                className="md:hidden p-2.5 hover:bg-gray-100 rounded-xl transition"
               >
                 <Search size={22} />
               </button>
@@ -80,7 +80,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                 <div className="relative">
                   <button
                     onClick={() => setUserMenuOpen(!userMenuOpen)}
-                    className="flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-lg transition border border-gray-200"
+                    className="flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-xl transition border border-gray-200"
                   >
                     <User size={20} />
                     <div className="hidden lg:block text-left">
@@ -136,7 +136,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                           signOut();
                           setUserMenuOpen(false);
                         }}
-                        className="w-full px-4 py-2.5 text-left hover:bg-red-50 text-red-600 transition text-sm font-medium"
+                        className="w-full px-4 py-2.5 text-left hover:bg-blue-50 text-[#0A2540] transition text-sm font-medium"
                       >
                         Deconectare
                       </button>
@@ -146,7 +146,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
               ) : (
                 <button
                   onClick={() => onNavigate('login')}
-                  className="flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-lg transition border border-gray-200"
+                  className="flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-xl transition border border-gray-200"
                 >
                   <User size={20} />
                   <div className="hidden lg:block text-left">
@@ -158,7 +158,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
 
               <button
                 onClick={() => onNavigate('wishlist')}
-                className="hidden md:flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-lg transition border border-gray-200 relative"
+                className="hidden md:flex items-center gap-2 px-4 py-2.5 hover:bg-gray-50 rounded-xl transition border border-gray-200 relative"
               >
                 <Heart size={20} />
                 <span className="text-sm font-medium">Favorite</span>
@@ -166,7 +166,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
 
               <button
                 onClick={() => onNavigate('cart')}
-                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:shadow-lg transition-all relative font-semibold"
+                className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#0A2540] to-[#0d3659] text-white rounded-xl hover:shadow-lg transition-all relative font-semibold"
               >
                 <ShoppingCart size={20} />
                 {totalItems > 0 && (
@@ -179,7 +179,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
 
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition"
+                className="md:hidden p-2 hover:bg-gray-100 rounded-xl transition"
               >
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -194,7 +194,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                     onNavigate('products');
                     setMobileMenuOpen(false);
                   }}
-                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition font-medium"
+                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-xl transition font-medium"
                 >
                   Toate Produsele
                 </button>
@@ -203,7 +203,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                     onNavigate('categories');
                     setMobileMenuOpen(false);
                   }}
-                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition font-medium"
+                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-xl transition font-medium"
                 >
                   Categorii
                 </button>
@@ -212,7 +212,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                     onNavigate('offers');
                     setMobileMenuOpen(false);
                   }}
-                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-lg transition font-medium text-red-600"
+                  className="px-4 py-3 text-left hover:bg-gray-50 rounded-xl transition font-medium text-[#0A2540]"
                 >
                   Oferte Speciale
                 </button>
@@ -233,9 +233,9 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
           <div className="flex items-center justify-between text-sm">
             <button
               onClick={() => onNavigate('offers')}
-              className="text-red-700 font-bold hover:text-red-800 transition flex items-center gap-2"
+              className="text-[#0A2540] font-bold hover:text-[#0d3659] transition flex items-center gap-2"
             >
-              <span className="bg-red-600 text-white px-2 py-1 rounded text-xs font-black">HOT</span>
+              <span className="bg-[#0A2540] text-white px-2 py-1 rounded text-xs font-black">HOT</span>
               Super Oferte - Până la -50%
             </button>
             <div className="hidden md:flex gap-6 text-gray-600">

@@ -10,20 +10,20 @@ export default function Footer({ onNavigate }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="bg-gradient-to-r from-red-600 to-red-700 px-5 py-2 rounded-xl font-black text-2xl mb-4 inline-block shadow-lg">
+            <div className="bg-gradient-to-r from-[#0A2540] to-[#0d3659] px-5 py-2 rounded-xl font-black text-2xl mb-4 inline-block shadow-lg">
               VOLCO
             </div>
             <p className="text-gray-400 mb-4">
               Magazinul tău de încredere pentru electronice, tehnologie și lifestyle premium.
             </p>
             <div className="flex gap-3">
-              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-red-600 transition">
+              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-[#0A2540] transition">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-red-600 transition">
+              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-[#0A2540] transition">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-red-600 transition">
+              <a href="#" className="p-2 bg-gray-800 rounded-lg hover:bg-[#0A2540] transition">
                 <Twitter size={20} />
               </a>
             </div>
