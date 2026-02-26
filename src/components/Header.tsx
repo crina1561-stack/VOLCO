@@ -25,10 +25,13 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
               <MapPin size={14} />
               <span>Livrare în toată România</span>
             </div>
-            <div className="hidden md:flex items-center gap-2">
+            <a
+              href="tel:+40800123456"
+              className="hidden md:flex items-center gap-2 hover:text-[#0A2540] transition"
+            >
               <Phone size={14} />
               <span>0800 123 456</span>
-            </div>
+            </a>
           </div>
           <div className="flex gap-4">
             <button onClick={() => onNavigate('despre')} className="hover:text-[#0A2540] transition">Despre Noi</button>
@@ -39,17 +42,17 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
       </div>
 
       <div className="border-b">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <button onClick={() => onNavigate('home')} className="flex items-center gap-2 group py-2">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <button onClick={() => onNavigate('home')} className="flex items-center group">
               <img
                 src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
                 alt="VOLCO Logo"
-                className="h-16 md:h-20 w-auto group-hover:scale-105 transition-transform"
+                className="h-24 md:h-28 w-auto group-hover:scale-105 transition-transform"
               />
             </button>
 
-            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+            <div className="hidden md:flex flex-1 max-w-2xl mx-4">
               <div className="relative w-full">
                 <input
                   type="text"

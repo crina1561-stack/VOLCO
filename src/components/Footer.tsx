@@ -13,7 +13,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             <img
               src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
               alt="VOLCO Logo"
-              className="h-10 w-auto mb-4"
+              className="h-16 md:h-20 w-auto mb-4"
             />
             <p className="text-gray-400 mb-4">
               Magazinul tău de încredere pentru electronice, tehnologie și lifestyle premium.
@@ -92,11 +92,15 @@ export default function Footer({ onNavigate }: FooterProps) {
               </li>
               <li className="flex items-center gap-2">
                 <Phone size={18} />
-                <span>+40 123 456 789</span>
+                <a href="tel:+40800123456" className="hover:text-white transition">
+                  +40 800 123 456
+                </a>
               </li>
               <li className="flex items-center gap-2">
                 <Mail size={18} />
-                <span>contact@volco.ro</span>
+                <a href="mailto:contact@volco.ro" className="hover:text-white transition">
+                  contact@volco.ro
+                </a>
               </li>
             </ul>
           </div>

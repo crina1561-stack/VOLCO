@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { CartProvider } from './contexts/CartContext';
+import { FavoritesProvider } from './contexts/FavoritesContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -78,6 +79,10 @@ function AppContent() {
         {currentPage === 'profile' && <ProfilePage onNavigate={navigate} />}
         {currentPage === 'orders' && <ProfilePage onNavigate={navigate} />}
         {currentPage === 'vendor-marketplace' && <VendorMarketplacePage onNavigate={navigate} />}
+        {currentPage === 'favorites' && <ProfilePage onNavigate={navigate} />}
+        {currentPage === 'despre' && <LegalPage slug="despre-noi" onNavigate={navigate} />}
+        {currentPage === 'contact' && <LegalPage slug="contact" onNavigate={navigate} />}
+        {currentPage === 'politica-confidentialitate' && <LegalPage slug="politica-confidentialitate" onNavigate={navigate} />}
         {currentPage.startsWith('legal/') && <LegalPage slug={currentPage.replace('legal/', '')} onNavigate={navigate} />}
         {currentPage === 'order-success' && (
           <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -122,7 +127,9 @@ function App() {
   return (
     <AuthProvider>
       <CartProvider>
-        <AppContent />
+        <FavoritesProvider>
+          <AppContent />
+        </FavoritesProvider>
       </CartProvider>
     </AuthProvider>
   );

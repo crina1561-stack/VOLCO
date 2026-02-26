@@ -2,8 +2,7 @@ import { ShoppingCart, Heart, Star } from 'lucide-react';
 import { Product } from '../types';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../lib/supabase';
-import { useState } from 'react';
+import { useFavorites } from '../contexts/FavoritesContext';
 
 interface ProductCardProps {
   product: Product;
@@ -13,7 +12,7 @@ interface ProductCardProps {
 export default function ProductCard({ product, onNavigate }: ProductCardProps) {
   const { addToCart } = useCart();
   const { user } = useAuth();
-  const [isInWishlist, setIsInWishlist] = useState(false);
+  const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
   const displayPrice = product.discount_price || product.price;
   const hasDiscount = product.discount_price !== null;
@@ -30,25 +29,17 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
     await addToCart(product.id);
   };
 
-  const toggleWishlist = async (e: React.MouseEvent) => {
+  const toggleFavorite = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!user) {
       onNavigate('login');
       return;
     }
 
-    if (isInWishlist) {
-      await supabase
-        .from('wishlist')
-        .delete()
-        .eq('user_id', user.id)
-        .eq('product_id', product.id);
-      setIsInWishlist(false);
+    if (isFavorite(product.id)) {
+      await removeFromFavorites(product.id);
     } else {
-      await supabase
-        .from('wishlist')
-        .insert({ user_id: user.id, product_id: product.id });
-      setIsInWishlist(true);
+      await addToFavorites(product.id);
     }
   };
 
@@ -88,12 +79,12 @@ export default function ProductCard({ product, onNavigate }: ProductCardProps) {
       )}
 
       <button
-        onClick={toggleWishlist}
+        onClick={toggleFavorite}
         className="absolute top-3 right-3 z-10 p-2 bg-white rounded-full shadow-lg hover:bg-gray-50 transition"
       >
         <Heart
           size={20}
-          className={isInWishlist ? 'fill-red-500 text-red-500' : 'text-gray-400'}
+          className={isFavorite(product.id) ? 'fill-red-500 text-red-500' : 'text-gray-400'}
         />
       </button>
 

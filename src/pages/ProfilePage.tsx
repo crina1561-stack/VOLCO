@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { User, Package, FileText, Shield, MapPin, CreditCard, Heart, Settings } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useFavorites } from '../contexts/FavoritesContext';
 import { supabase } from '../lib/supabase';
 import { Order } from '../types';
+import ProductCard from '../components/ProductCard';
 
 interface ProfilePageProps {
   onNavigate: (page: string, slug?: string) => void;
@@ -10,6 +12,7 @@ interface ProfilePageProps {
 
 export default function ProfilePage({ onNavigate }: ProfilePageProps) {
   const { user } = useAuth();
+  const { favorites } = useFavorites();
   const [activeTab, setActiveTab] = useState('orders');
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -157,6 +160,18 @@ export default function ProfilePage({ onNavigate }: ProfilePageProps) {
                 >
                   <CreditCard size={20} />
                   <span>Metode de plată</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('favorites')}
+                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+                    activeTab === 'favorites'
+                      ? 'bg-red-50 text-red-600 font-semibold'
+                      : 'hover:bg-gray-50 text-gray-700'
+                  }`}
+                >
+                  <Heart size={20} />
+                  <span>Favorite ({favorites.length})</span>
                 </button>
 
                 <button
@@ -322,6 +337,32 @@ export default function ProfilePage({ onNavigate }: ProfilePageProps) {
                     </button>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'favorites' && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Produsele Mele Favorite</h2>
+                {favorites.length > 0 ? (
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {favorites.map((product) => (
+                      <ProductCard key={product.id} product={product} onNavigate={onNavigate} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-white rounded-xl shadow-md p-8">
+                    <div className="text-center py-8">
+                      <Heart size={64} className="mx-auto text-gray-400 mb-4" />
+                      <p className="text-gray-600 mb-6">Nu ai produse favorite</p>
+                      <button
+                        onClick={() => onNavigate('products')}
+                        className="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-semibold"
+                      >
+                        Descoperă produse
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
