@@ -90,7 +90,7 @@ export default function HomePage({ onNavigate }: HomePageProps) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="relative h-[500px] overflow-hidden">
+      <div className="relative h-[400px] md:h-[450px] overflow-hidden">
         {banners.map((banner, index) => (
           <div
             key={index}
@@ -111,8 +111,8 @@ export default function HomePage({ onNavigate }: HomePageProps) {
                 <div className="inline-block bg-red-600 text-white px-4 py-2 rounded-full font-bold mb-4 animate-pulse">
                   {banner.discount}
                 </div>
-                <h1 className="text-6xl font-bold mb-4 leading-tight">{banner.title}</h1>
-                <p className="text-2xl mb-8 text-gray-200">{banner.subtitle}</p>
+                <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">{banner.title}</h1>
+                <p className="text-lg md:text-xl mb-6 text-gray-200">{banner.subtitle}</p>
                 <button
                   onClick={() => onNavigate('products')}
                   className="bg-white text-gray-900 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 shadow-2xl"

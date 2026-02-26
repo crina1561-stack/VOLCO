@@ -10,9 +10,11 @@ export default function Footer({ onNavigate }: FooterProps) {
       <div className="max-w-7xl mx-auto px-4 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="bg-gradient-to-r from-[#0A2540] to-[#0d3659] px-5 py-2 rounded-xl font-black text-2xl mb-4 inline-block shadow-lg">
-              VOLCO
-            </div>
+            <img
+              src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
+              alt="VOLCO Logo"
+              className="h-10 w-auto mb-4"
+            />
             <p className="text-gray-400 mb-4">
               Magazinul tău de încredere pentru electronice, tehnologie și lifestyle premium.
             </p>
@@ -100,14 +102,50 @@ export default function Footer({ onNavigate }: FooterProps) {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-400 text-sm">
-            © 2024 VOLCO. Toate drepturile rezervate.
-          </p>
-          <div className="flex gap-6 text-sm text-gray-400">
-            <button className="hover:text-white transition">Cookies</button>
-            <button className="hover:text-white transition">Protecția Datelor</button>
-            <button className="hover:text-white transition">GDPR</button>
+        <div className="border-t border-gray-800 pt-8 mb-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="bg-gray-800 rounded-xl p-4 text-center">
+              <div className="text-3xl mb-2">📦</div>
+              <p className="text-sm font-semibold text-white mb-1">Deschiderea coletului</p>
+              <p className="text-xs text-gray-400">la livrare</p>
+            </div>
+            <div className="bg-gray-800 rounded-xl p-4 text-center">
+              <div className="text-3xl mb-2">↩️</div>
+              <p className="text-sm font-semibold text-white mb-1">30 de zile</p>
+              <p className="text-xs text-gray-400">drept de retur</p>
+            </div>
+            <div className="bg-gray-800 rounded-xl p-4 text-center">
+              <div className="text-3xl mb-2">💳</div>
+              <p className="text-sm font-semibold text-white mb-1">Plata in rate</p>
+              <p className="text-xs text-gray-400">fara dobanda</p>
+            </div>
+            <div className="bg-gray-800 rounded-xl p-4 text-center">
+              <div className="text-3xl mb-2">🛡️</div>
+              <p className="text-sm font-semibold text-white mb-1">Garantii</p>
+              <p className="text-xs text-gray-400">si service</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-gray-800 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+            <p className="text-gray-400 text-sm">
+              © 2024 VOLCO. Toate drepturile rezervate.
+            </p>
+            <div className="flex gap-6 text-sm text-gray-400">
+              <button className="hover:text-white transition">Termeni si conditii</button>
+              <button className="hover:text-white transition">Protecția Datelor</button>
+              <button className="hover:text-white transition">GDPR</button>
+              <button className="hover:text-white transition">A.N.P.C.</button>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="text-xs text-gray-500 mb-2">
+              PROTECŢIA CONSUMATORILOR - A.N.P.C. – SAL (Solutionarea Alternativa a Litigiilor)
+            </p>
+            <p className="text-xs text-gray-500">
+              VOLCO S.R.L. | CUI: RO12345678 | J40/1234/2024 | contact@volco.ro | +40 800 123 456
+            </p>
           </div>
         </div>
       </div>

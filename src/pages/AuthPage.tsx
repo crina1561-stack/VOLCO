@@ -52,9 +52,11 @@ export default function AuthPage({ onNavigate }: AuthPageProps) {
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <div className="inline-block bg-gradient-to-r from-red-600 to-red-700 text-white px-6 py-3 rounded-xl font-black text-3xl shadow-lg mb-4">
-            VOLCO
-          </div>
+          <img
+            src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
+            alt="VOLCO Logo"
+            className="h-16 w-auto mx-auto mb-6"
+          />
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             {isLogin ? 'Bun venit înapoi!' : 'Creează cont nou'}
           </h2>

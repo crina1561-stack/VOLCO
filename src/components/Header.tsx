@@ -42,12 +42,11 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between gap-4">
             <button onClick={() => onNavigate('home')} className="flex items-center gap-2 group">
-              <div className="relative">
-                <div className="bg-gradient-to-r from-[#0A2540] to-[#0d3659] text-white px-6 py-3 rounded-xl font-black text-3xl shadow-lg group-hover:shadow-xl transition-all tracking-tight">
-                  VOLCO
-                </div>
-                <div className="absolute -bottom-1 -right-1 w-full h-full bg-gradient-to-r from-red-700 to-red-800 rounded-xl -z-10"></div>
-              </div>
+              <img
+                src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
+                alt="VOLCO Logo"
+                className="h-10 md:h-12 w-auto group-hover:scale-105 transition-transform"
+              />
             </button>
 
             <div className="hidden md:flex flex-1 max-w-2xl mx-8">

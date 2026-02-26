@@ -11,6 +11,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import AuthPage from './pages/AuthPage';
 import ProfilePage from './pages/ProfilePage';
 import SearchModal from './pages/SearchModal';
+import CookieConsent from './components/CookieConsent';
 import { CheckCircle } from 'lucide-react';
 
 function AppContent() {
@@ -108,6 +109,7 @@ function AppContent() {
         onClose={() => setSearchOpen(false)}
         onNavigate={navigate}
       />
+      <CookieConsent />
     </div>
   );
 }
