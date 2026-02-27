@@ -15,6 +15,7 @@ import SearchModal from './pages/SearchModal';
 import CookieConsent from './components/CookieConsent';
 import LegalPage from './pages/LegalPage';
 import VendorMarketplacePage from './pages/VendorMarketplacePage';
+import FavoritesPage from './pages/FavoritesPage';
 import { CheckCircle } from 'lucide-react';
 
 function AppContent() {
@@ -79,7 +80,7 @@ function AppContent() {
         {currentPage === 'profile' && <ProfilePage onNavigate={navigate} />}
         {currentPage === 'orders' && <ProfilePage onNavigate={navigate} />}
         {currentPage === 'vendor-marketplace' && <VendorMarketplacePage onNavigate={navigate} />}
-        {currentPage === 'favorites' && <ProfilePage onNavigate={navigate} />}
+        {currentPage === 'favorites' && <FavoritesPage onNavigate={navigate} />}
         {currentPage === 'despre' && <LegalPage slug="despre-noi" onNavigate={navigate} />}
         {currentPage === 'contact' && <LegalPage slug="contact" onNavigate={navigate} />}
         {currentPage === 'politica-confidentialitate' && <LegalPage slug="politica-confidentialitate" onNavigate={navigate} />}

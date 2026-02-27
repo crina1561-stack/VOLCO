@@ -403,18 +403,55 @@ export default function ProductDetailPage({ productSlug, onNavigate }: ProductDe
                 Adaugă în coș
               </button>
 
-              <div className="grid grid-cols-3 gap-3 pt-4">
-                <div className="bg-blue-50 p-4 rounded-xl text-center">
-                  <Truck size={28} className="mx-auto text-blue-600 mb-2" />
-                  <p className="text-xs font-semibold text-gray-700">Livrare rapidă</p>
-                </div>
-                <div className="bg-green-50 p-4 rounded-xl text-center">
-                  <Package size={28} className="mx-auto text-green-600 mb-2" />
-                  <p className="text-xs font-semibold text-gray-700">Deschidere colet</p>
-                </div>
-                <div className="bg-purple-50 p-4 rounded-xl text-center">
-                  <Award size={28} className="mx-auto text-purple-600 mb-2" />
-                  <p className="text-xs font-semibold text-gray-700">Retur 30 zile</p>
+              <div className="border-t pt-6 mt-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-5 hover:shadow-lg transition">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Package size={24} className="text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-1">Deschiderea coletului</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">La livrare, verifică produsul înainte de plată</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-2 border-emerald-200 rounded-xl p-5 hover:shadow-lg transition">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-emerald-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Clock size={24} className="text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-1">30 de zile</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">Drept de retur, fără întrebări</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-xl p-5 hover:shadow-lg transition">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <span className="text-2xl">💳</span>
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-1">Plata în rate</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">Fără dobândă, până la 12 rate</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-gradient-to-br from-amber-50 to-amber-100 border-2 border-amber-200 rounded-xl p-5 hover:shadow-lg transition">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-amber-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Shield size={24} className="text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-1">Garanții și service</h3>
+                        <p className="text-sm text-gray-600 leading-relaxed">Asistență dedicată și service rapid</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
