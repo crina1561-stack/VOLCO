@@ -2,7 +2,6 @@ import { ShoppingCart, User, Heart, Search, Menu, X, MapPin, Phone } from 'lucid
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
-import MegaMenu from './MegaMenu';
 
 interface HeaderProps {
   onNavigate: (page: string, slug?: string) => void;
@@ -11,10 +10,17 @@ interface HeaderProps {
 }
 
 export default function Header({ onNavigate, currentPage, onSearchOpen }: HeaderProps) {
-  const { user, signOut } = useAuth();
+  const { user, userProfile, signOut } = useAuth();
   const { totalItems } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+
+  const getFirstName = () => {
+    if (userProfile?.full_name) {
+      return userProfile.full_name.split(' ')[0];
+    }
+    return 'Utilizator';
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-lg">
@@ -86,8 +92,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                   >
                     <User size={20} />
                     <div className="hidden lg:block text-left">
-                      <div className="text-xs text-gray-500">Bună,</div>
-                      <div className="text-sm font-semibold text-gray-900">Contul Meu</div>
+                      <div className="text-sm font-semibold text-gray-900">Bună, {getFirstName()}</div>
                     </div>
                   </button>
                   {userMenuOpen && (
@@ -227,50 +232,44 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
       <div className="hidden md:block bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-center gap-8 text-white font-semibold">
+          <div className="flex items-center justify-center gap-6 text-white font-semibold text-sm">
             <button onClick={() => onNavigate('category', 'telefoane-tablete')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">📱</span>
-              <span className="text-sm">Telefoane & Tablete</span>
+              <span>Telefoane & Tablete</span>
             </button>
             <button onClick={() => onNavigate('category', 'laptopuri')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">💻</span>
-              <span className="text-sm">Laptopuri</span>
+              <span>Laptopuri</span>
             </button>
             <button onClick={() => onNavigate('category', 'calculatoare-componente')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">🖥️</span>
-              <span className="text-sm">PC & Componente</span>
+              <span>Calculatoare & Componente</span>
             </button>
             <button onClick={() => onNavigate('category', 'tv-audio-video')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">📺</span>
-              <span className="text-sm">TV & Audio</span>
+              <span>TV & Audio-Video</span>
             </button>
             <button onClick={() => onNavigate('category', 'gaming')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">🎮</span>
-              <span className="text-sm">Gaming</span>
+              <span>Gaming</span>
             </button>
             <button onClick={() => onNavigate('category', 'electrocasnice')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">🏠</span>
-              <span className="text-sm">Electrocasnice</span>
+              <span>Electrocasnice</span>
             </button>
             <button onClick={() => onNavigate('category', 'parfumuri-cosmetice')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">💄</span>
-              <span className="text-sm">Parfumuri</span>
+              <span>Parfumuri & Cosmetice</span>
             </button>
             <button onClick={() => onNavigate('category', 'fashion-accesorii')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">👔</span>
-              <span className="text-sm">Fashion</span>
+              <span>Fashion & Accesorii</span>
             </button>
-            <button onClick={() => onNavigate('category', 'rechizite-scolare')} className="flex items-center gap-2 hover:scale-110 transition-transform">
+            <button onClick={() => onNavigate('category', 'rechizite')} className="flex items-center gap-2 hover:scale-110 transition-transform">
               <span className="text-2xl">📚</span>
-              <span className="text-sm">Rechizite</span>
+              <span>Rechizite</span>
             </button>
           </div>
-        </div>
-      </div>
-
-      <div className="hidden md:block bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4">
-          <MegaMenu onNavigate={onNavigate} />
         </div>
       </div>
 
