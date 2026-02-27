@@ -54,7 +54,7 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
               <img
                 src="/ChatGPT_Image_20_nov._2025,_05_46_43 copy.png"
                 alt="VOLCO Logo"
-                className="h-32 md:h-40 w-auto group-hover:scale-105 transition-transform"
+                className="h-24 md:h-28 w-auto group-hover:scale-105 transition-transform"
               />
             </button>
 
@@ -137,6 +137,21 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
                       >
                         Returnări
                       </button>
+                      {userProfile?.role === 'admin' && (
+                        <>
+                          <hr className="my-2" />
+                          <button
+                            onClick={() => {
+                              onNavigate('admin');
+                              setUserMenuOpen(false);
+                            }}
+                            className="w-full px-4 py-2.5 text-left hover:bg-blue-50 text-blue-600 transition text-sm font-semibold flex items-center gap-2"
+                          >
+                            <span className="text-lg">⚙️</span>
+                            <span>Admin Panel</span>
+                          </button>
+                        </>
+                      )}
                       <hr className="my-2" />
                       <button
                         onClick={() => {
@@ -273,33 +288,6 @@ export default function Header({ onNavigate, currentPage, onSearchOpen }: Header
         </div>
       </div>
 
-      <div className="bg-red-50 border-b border-red-100">
-        <div className="max-w-7xl mx-auto px-4 py-2">
-          <div className="flex items-center justify-between text-sm">
-            <button
-              onClick={() => onNavigate('offers')}
-              className="text-[#0A2540] font-bold hover:text-[#0d3659] transition flex items-center gap-2"
-            >
-              <span className="bg-[#0A2540] text-white px-2 py-1 rounded text-xs font-black">HOT</span>
-              Super Oferte - Până la -50%
-            </button>
-            <div className="hidden md:flex gap-6 text-gray-600">
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                Livrare Gratuită peste 500 RON
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                Garanție Extinsă
-              </span>
-              <span className="flex items-center gap-2">
-                <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
-                Retur 30 zile
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
     </header>
   );
 }
